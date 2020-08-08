@@ -5,8 +5,8 @@ import java.util.List;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+//import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class MockListClass {
 
@@ -41,4 +41,19 @@ public class MockListClass {
 		assertEquals(null, list.get(0));
 		assertEquals(null, list.get(1));
 	}
+
+	@Test
+	public void mock_argumentMatcher() {
+		List list = mock(List.class);
+
+		//when-then
+		when(list.get(anyInt())).thenReturn("Hariom Yadav");//any int argument - output same
+
+		System.out.println(list.get(0));//Hariom Yadav
+		System.out.println(list.get(1));//Hariom Yadav
+
+		assertEquals("Hariom Yadav", list.get(0));
+		assertEquals("Hariom Yadav", list.get(1));
+	}
+
 }
