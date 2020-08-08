@@ -14,7 +14,7 @@ public class MockListClass {
 	public void mockListClass_andSize() {
 		//mock List class
 		List listObj = mock(List.class);
-		//when-then
+		//when-then (stub)
 		when(listObj.size()).thenReturn(2);
 		//test
 		System.out.println(listObj.size());//2
@@ -26,7 +26,7 @@ public class MockListClass {
 		//mock List class
 		List list = mock(List.class);
 		//when-then
-		when(list.get(0)).thenReturn("hariom");
+		when(list.get(0)).thenReturn("hariom");//(stub)
 		//test
 		System.out.println(list.get(0));//hariom
 		assertEquals("hariom", list.get(0));
