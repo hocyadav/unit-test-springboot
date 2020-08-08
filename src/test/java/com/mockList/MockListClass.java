@@ -56,4 +56,12 @@ public class MockListClass {
 		assertEquals("Hariom Yadav", list.get(1));
 	}
 	
+	@Test(expected = RuntimeException.class)//4 : catching exception here 
+	public void test_Exception() {
+		List list = mock(List.class);//1.
+		when(list.get(anyInt())).thenThrow(new RuntimeException("ex msg"));//2.
+		list.get(0);//3.it will throw RT exception
+		//list.get(1);//it will throw RT exception
+	}
+	
 }
