@@ -78,6 +78,17 @@ public class SpyTest {
 		assertEquals(100, spy.size());//check our stub size output
 	}
 	
+	@Test
+	public void spyTest3_1_times__shouldReturn100_whenStubSizeMethodIsCalled_() {
+		List<String> list = new ArrayList<String>();
+		List<String> spy = Mockito.spy(list);
+		
+		Mockito.verify(spy, Mockito.never()).size();//or below times = 0 is same
+		Mockito.verify(spy, Mockito.times(0)).size();
+		assertEquals(0, spy.size());//before calling size checking its called times
+		Mockito.verify(spy, Mockito.times(1)).size();
+	}
+	
 	
 	@Test(expected = NotAMockException.class)//adding exception
 	public void mockTest1() {
