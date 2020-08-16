@@ -3,11 +3,16 @@ package com.hari.spy;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.exceptions.misusing.NotAMockException;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 //https://www.baeldung.com/mockito-spy
 //list class obj (normal obj creation) -> spy obj(Mockito.spy) -> call method (Mockito.verify)
 //verify method(normal method call) -> assert test
@@ -23,8 +28,24 @@ public class SpyTest {
 
 		Mockito.verify(listspy).add("hari");//verify that method is called or not
 		Mockito.verify(listspy).add("om");
+		Mockito.verify(listspy, Mockito.never()).add("yadav");
 		
 		assertEquals(2, listspy.size());
+	}
+	
+	@Test
+	//https://www.youtube.com/watch?v=Qq0uziWeMAA&list=PLBXh307tT1zWvWUDMFdvEC1ia972E8kGS&index=2&t=0s
+	public void testSpy1_ArgumentCaptor() {
+		List<String> list = new ArrayList<>();
+		List<String> listspy = Mockito.spy(list);
+		
+		listspy.add("hari");//actual add is called - we are not stubbing method of list
+		
+		ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
+		
+		Mockito.verify(listspy).add(arg.capture());//store that add argument into argumetcaptor
+		
+		assertEquals("hari", arg.getValue());//compare argument captor value 
 	}
 	
 	@Test
@@ -108,5 +129,60 @@ public class SpyTest {
 		
 		assertEquals(100, spy.size());
 	}
+	
+	@Test
+	public void mockListInterface() {//if we run single this method then test pass
+		//mock creation
+		List list = Mockito.mock(List.class);//interface
+		
+		//using mock object
+		list.add("hari");
+		list.clear();
+		
+		//verification
+		Mockito.verify(list).add("hari");
+		Mockito.verify(list).clear();
+	}
+	
+	@Test
+	public void mockLinkedListClass_() {
+		//mock creation
+		LinkedList list = Mockito.mock(LinkedList.class);//class
+		
+		//stubbing
+		Mockito.when(list.get(0)).thenReturn("hari");
+		Mockito.doReturn("om").when(list).get(1);
+		Mockito.when(list.get(2)).thenReturn(new RuntimeException());
+		
+		System.out.println(list.get(0));
+		System.out.println(list.get(1));
+		System.out.println(list.get(999));//null
+		System.out.println(list.get(2));
+		
+		Mockito.verify(list).get(0);
+		Mockito.verify(list).get(1);
+		Mockito.verify(list).get(2);
+		//Mockito.verify(list, Mockito.times(4)).get(Mockito.anyInt());//called in sysout I think??
+	}
+	
+	@Test
+	public void test_Answer() {
+		ArrayList list = Mockito.mock(ArrayList.class);
+		
+		Mockito.when(list.size()).thenAnswer(new Answer<Integer>() {
+			int count = 0;
+			@Override
+			public Integer answer(InvocationOnMock invocation) throws Throwable {
+				return ++count;
+			}
+		});
+		
+		assertEquals(1, list.size());
+		assertEquals(2, list.size());
+		assertEquals(3, list.size());
+		
+		
+	}
+	
 	
 }
