@@ -41,9 +41,9 @@ public class SpyTest {
 		
 		listspy.add("hari");//actual add is called - we are not stubbing method of list
 		
-		ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
+		ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);//this arg will store single string value and later we can use to in assert to test
 		
-		Mockito.verify(listspy).add(arg.capture());//store that add argument into argumetcaptor
+		Mockito.verify(listspy).add(arg.capture());//store that add string argument into argumetcaptor
 		
 		assertEquals("hari", arg.getValue());//compare argument captor value 
 	}
@@ -64,9 +64,9 @@ public class SpyTest {
 		assertEquals(0, spy.size());
 		//override list method - i.e. stubbing list method by using doReturn()
 		
-		
 		Mockito.doReturn(100).when(spy).size();//when size() method called - return 100 
 		Mockito.verify(spy).size();//Optional : verify size is called or not
+		
 		assertEquals(100, spy.size());//check our stub size output
 	}
 	
@@ -150,7 +150,7 @@ public class SpyTest {
 		LinkedList list = Mockito.mock(LinkedList.class);//class
 		
 		//stubbing
-		Mockito.when(list.get(0)).thenReturn("hari");
+		Mockito.when(list.get(0)).thenReturn("hari");//*easy to understand
 		Mockito.doReturn("om").when(list).get(1);
 		Mockito.when(list.get(2)).thenReturn(new RuntimeException());
 		
@@ -173,16 +173,12 @@ public class SpyTest {
 			int count = 0;
 			@Override
 			public Integer answer(InvocationOnMock invocation) throws Throwable {
-				return ++count;
+				return ++count;//*here based on count we can call different logic/service and return as result and test
 			}
 		});
 		
 		assertEquals(1, list.size());
 		assertEquals(2, list.size());
 		assertEquals(3, list.size());
-		
-		
 	}
-	
-	
 }
