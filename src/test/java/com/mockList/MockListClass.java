@@ -49,6 +49,7 @@ public class MockListClass {
 
 		//when-then
 		when(list.get(anyInt())).thenReturn("Hariom Yadav");//any int argument - output same
+		//when(list.get(any(Integer.class))).thenReturn("Hariom Yadav");//any int argument - output same
 
 		System.out.println(list.get(0));//Hariom Yadav
 		System.out.println(list.get(1));//Hariom Yadav
