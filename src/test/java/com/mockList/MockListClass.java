@@ -49,7 +49,7 @@ public class MockListClass {
 
 		//when-then
 		when(list.get(anyInt())).thenReturn("Hariom Yadav");//any int argument - output same
-		//when(list.get(any(Integer.class))).thenReturn("Hariom Yadav");//any int argument - output same
+		when(list.get(any(Integer.class))).thenReturn("Hariom Yadav");//any int argument - output same
 
 		System.out.println(list.get(0));//Hariom Yadav
 		System.out.println(list.get(1));//Hariom Yadav
@@ -58,6 +58,7 @@ public class MockListClass {
 		assertEquals("Hariom Yadav", list.get(1));
 	}
 	
+	//*imp
 	@Test(expected = RuntimeException.class)//4 : catching exception here 
 	public void test_Exception() {
 		List list = mock(List.class);//1.
